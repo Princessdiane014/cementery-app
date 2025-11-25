@@ -1,103 +1,61 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'signup.dart';
+import 'cemetery_map.dart';
+import 'reservation_form.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E6),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF758467),
-        elevation: 0,
-        automaticallyImplyLeading: false,
+        title: const Text("Cemetery Reservation"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 60),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // 🕊️ Logo
-              Image.asset(
-                'assets/logo.png',
-                width: 120,
-                height: 120,
-              ),
-              const SizedBox(height: 20),
 
-              // Title / Welcome message
-              const Text(
-                'Welcome to Cemetery App',
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Color(0xFF2E2E2E),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+      // 👇 HINDI BINAGO ANG STYLE NG HOMEPAGE MO
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Your logo stays here
+            Image.asset(
+              "assets/logo.png",
+              width: 120,
+            ),
 
-              const SizedBox(height: 40),
+            const SizedBox(height: 20),
 
-              //  Log In button
-              SizedBox(
-                width: 200,
-                height: 45,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF758467),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+            const Text(
+              "Welcome to Cemetery Reservation",
+              style: TextStyle(fontSize: 18),
+            ),
+
+            const SizedBox(height: 40),
+
+            ElevatedButton(
+              child: const Text("Open Cemetery Map"),
+              onPressed: () async {
+                final selectedLot = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CemeteryMapScreen(),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
+                );
+
+                // kung may napiling lote → proceed to reservation
+                if (selectedLot != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReservationForm(
+                        selectedLot: selectedLot,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    'Log In',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              //  Sign Up button
-              SizedBox(
-                width: 200,
-                height: 45,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFF758467), width: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
-                  onPressed: () {
-
-                  },
-                  child: const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Color(0xFF758467),
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
